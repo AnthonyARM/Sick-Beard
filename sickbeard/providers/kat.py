@@ -199,8 +199,8 @@ class KATProvider(generic.TorrentProvider):
         else:
             for show_name in set(allPossibleShowNames(ep_obj.show)):
                 ep_string = sanitizeSceneName(show_name) +' '+ \
-                sickbeard.config.naming_ep_type[2] % {'seasonnumber': ep_obj.season, 'episodenumber': ep_obj.episode} +'|'+\
-                sickbeard.config.naming_ep_type[0] % {'seasonnumber': ep_obj.season, 'episodenumber': ep_obj.episode} +'|'+\
+                sickbeard.config.naming_ep_type[2] % {'seasonnumber': ep_obj.season, 'episodenumber': ep_obj.episode} +' OR '+\
+                sickbeard.config.naming_ep_type[0] % {'seasonnumber': ep_obj.season, 'episodenumber': ep_obj.episode} +' OR '+\
                 sickbeard.config.naming_ep_type[3] % {'seasonnumber': ep_obj.season, 'episodenumber': ep_obj.episode} + ' category:tv' \
 
                 search_string['Episode'].append(ep_string)
@@ -239,7 +239,7 @@ class KATProvider(generic.TorrentProvider):
                     for tr in torrent_rows[1:]:
                         link = self.url + (tr.find('div', {'class': 'torrentname'}).find_all('a')[1])['href']
                         id = tr.get('id')[-7:]
-                        title = (tr.find('div', {'class': 'torrentname'}).find_all('a')[1]).text
+                        title = (tr.find('div', {'class': 'markeredBlock torType filmType'}).find_all('a')[0]).text
                         url = tr.find('a', 'imagnet')['href']
                         verified = True if tr.find('a', 'iverify') else False
                         trusted =  True if tr.find('img', {'alt': 'verified'}) else False
