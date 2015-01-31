@@ -98,6 +98,7 @@ class Quality:
     FULLHDWEBDL = 1 << 6  # 64 -- 1080p web-dl                        
     HDBLURAY = 1 << 7     # 128                                       
     FULLHDBLURAY = 1 << 8 # 256                                       
+    HEVC = 1 << 9
 
     # put these bits at the other end of the spectrum, far enough out that they shouldn't interfere
     UNKNOWN = 1 << 15     # 32768
@@ -112,7 +113,8 @@ class Quality:
                       HDWEBDL: "720p WEB-DL",
                       FULLHDWEBDL: "1080p WEB-DL",
                       HDBLURAY: "720p BluRay",
-                      FULLHDBLURAY: "1080p BluRay"}
+                      FULLHDBLURAY: "1080p BluRay",
+                      HEVC:"HEVC"}
 
     statusPrefixes = {DOWNLOADED: "Downloaded",
                       SNATCHED: "Snatched"}
@@ -204,6 +206,8 @@ class Quality:
             return Quality.SDTV
         elif checkName(["(dvdrip|b[r|d]rip)(.ws)?.(xvid|divx|x264)"], any) and not checkName(["(720|1080)[pi]"], all):
             return Quality.SDDVD
+        elif checkName(["H.?265","720p"],all) or checkName([ 'HEVC','720p'], all) and not checkName(["(1080)[pi]"],all):
+            return Quality.HEVC
         elif checkName(["720p", "hdtv", "x264"], all) or checkName(["hr.ws.pdtv.x264"], any) and not checkName(["(1080)[pi]"], all):          
             return Quality.HDTV                                                                        
         elif checkName(["720p|1080i", "hdtv", "mpeg-?2"], all):
